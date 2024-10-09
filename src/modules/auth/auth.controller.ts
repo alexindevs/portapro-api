@@ -7,6 +7,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { ResponseFormat } from 'src/shared/interfaces/response.interface';
 import { RequestResetPasswordDto } from './dto/request-reset-password.dto';
+import { ResendConfirmationEmailDto } from './dto/resend-confirmation-email.dto';
 
 @ApiTags('auth') // Tag for grouping in Swagger UI
 @Controller('auth')
@@ -35,6 +36,18 @@ export class AuthController {
     @Body() registerDto: RegisterDto,
   ): Promise<ResponseFormat<{ user: any; access_token: string }>> {
     return this.authService.register(registerDto);
+  }
+
+  @Post('resend-confirmation-email')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Resend confirmation email' })
+  @ApiBody({ type: ResendConfirmationEmailDto })
+  @ApiResponse({ status: 200, description: 'Email sent successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid email' })
+  async resendConfirmationEmail(
+    @Body() rceDto: ResendConfirmationEmailDto,
+  ): Promise<ResponseFormat<null>> {
+    return this.authService.resendConfirmationEmail(rceDto.email);
   }
 
   @Post('verify-email')

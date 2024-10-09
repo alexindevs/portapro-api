@@ -75,6 +75,21 @@ export class AuthService {
     });
   }
 
+  async resendConfirmationEmail(email: string): Promise<ResponseFormat<null>> {
+    const user = await this.userService.findByEmail(email);
+    if (!user) {
+      throw new BadRequestException(
+        this.createResponse('Email not found', 400, null),
+      );
+    }
+
+    const confirmationToken = generateSixDigitToken();
+    await this.sendConfirmationEmail(user, confirmationToken);
+    await this.userService.updateUser(user.id, { token: confirmationToken });
+
+    return this.createResponse('Confirmation email sent', 200, null);
+  }
+
   private async sendConfirmationEmail(user: any, token: string) {
     await this.mailerService.sendUserConfirmation(user, token);
   }
