@@ -40,7 +40,11 @@ export class AuthService {
         this.createResponse('Invalid credentials', 401, null),
       );
     }
-    const payload = { username: user.email, sub: user.id };
+    const payload = {
+      email: user.email,
+      userId: user.id,
+      name: user.firstName,
+    };
     const token = this.jwtService.sign(payload);
     return this.createResponse('Login successful', 200, {
       access_token: token,

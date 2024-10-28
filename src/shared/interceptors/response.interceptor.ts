@@ -38,14 +38,12 @@ export class ResponseInterceptor implements NestInterceptor {
   responseHandler(res: any, context: ExecutionContext) {
     const ctx = context.switchToHttp();
     const response = ctx.getResponse();
-    const status_code = response.statusCode;
 
     response.setHeader('Content-Type', 'application/json');
     if (typeof res === 'object') {
       const { message, ...data } = res;
 
       return {
-        status_code,
         message,
         ...data,
       };

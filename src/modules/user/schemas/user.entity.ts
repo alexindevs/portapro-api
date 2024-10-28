@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/shared/schemas/base.entity';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { IsEmail, Length } from 'class-validator';
+import { Project } from 'src/modules/project/schemas/project.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -30,4 +31,7 @@ export class User extends BaseEntity {
 
   @Column({ type: 'boolean', default: false })
   verified: boolean;
+
+  @OneToMany(() => Project, (project) => project.user)
+  projects: Project[];
 }

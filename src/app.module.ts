@@ -13,6 +13,7 @@ import { MailModule } from './modules/mailer/mail.module';
 import { UserModule } from './modules/user/user.module';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
+import { ProjectModule } from './modules/project/project.module';
 // Import only the necessary modules
 
 @Module({
@@ -73,6 +74,7 @@ import { AuthModule } from './modules/auth/auth.module';
         index: false,
       },
     }),
+    ProjectModule,
   ],
   controllers: [AppController, HealthController, ProbeController],
 })
